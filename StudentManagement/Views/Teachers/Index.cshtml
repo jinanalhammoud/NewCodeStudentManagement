@@ -1,0 +1,38 @@
+﻿@model IEnumerable<StudentManagement.Models.TeacherDetails>
+
+@{
+    ViewData["Title"] = "Teachers";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var teacher in Model)
+        {
+            <tr>
+                <td>@teacher.Name</td>
+                <td>@teacher.Department</td>
+                <td>@teacher.PhoneNumber</td>
+                <td>@teacher.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@teacher.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@teacher.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@teacher.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,13 @@
+﻿@model SelectClassViewModel
+
+<h2>Select Class</h2>
+
+@using (Html.BeginForm("MarkAttendance", "Attendances", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="SelectedClassId">Select Class:</label>
+        @Html.DropDownListFor(model => model.SelectedClassId, Model.Classes, "-- Select Class --", new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Next</button>
+}

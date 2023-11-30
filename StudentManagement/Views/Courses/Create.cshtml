@@ -1,0 +1,70 @@
+﻿@model StudentManagement.Models.Course
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Course</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Credits" class="control-label"></label>
+                <input asp-for="Credits" class="form-control" id="creditsInput" />
+                <span asp-validation-for="Credits" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function () {
+        $('#creditsInput').on('input', function () {
+            var input = $(this);
+            var inputValue = input.val();
+
+            // Check if the input is a negative integer
+            if (/^-?\d+$/.test(inputValue) && parseInt(inputValue) <= 0) {
+                // Display an error message
+                input.addClass('is-invalid');
+                input.removeClass('is-valid');
+                input.siblings('.text-danger').text('The value must be a non-negative integer.');
+            } else {
+                // Remove the error message if the input is valid
+                input.removeClass('is-invalid');
+                input.addClass('is-valid');
+                input.siblings('.text-danger').text('');
+            }
+        });
+    });
+</script>

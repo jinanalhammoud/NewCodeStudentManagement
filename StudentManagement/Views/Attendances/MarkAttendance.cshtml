@@ -1,0 +1,38 @@
+﻿@model MarkAttendanceViewModel
+
+@*<h2>Mark Attendance for @Model.SelectedClassName</h2>
+*@
+@using (Html.BeginForm("SaveAttendance", "Attendances", FormMethod.Post))
+{
+    <input type="hidden" asp-for="@Model.SelectedClassId" />
+    <div class="form-group">
+        <label asp-for="@Model.SelectedLectureId" class="control-label"></label>
+        <select asp-for="@Model.SelectedLectureId" asp-items="@Model.Lectures" class="form-control">
+            <option value="">-- Select Lecture --</option>
+        </select>
+        <span asp-validation-for="@Model.SelectedLectureId" class="text-danger"></span>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Mark Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Students.Count; i++)
+            {
+                <tr>
+                    <td>@Model.Students[i].StudentName</td>
+                    <td>
+                        @Html.CheckBoxFor(m => m.Students[i].Attended)
+                        @Html.HiddenFor(m => m.Students[i].StudentId)
+                        @Html.HiddenFor(m => m.Students[i].StudentName)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save Attendance</button>
+}
