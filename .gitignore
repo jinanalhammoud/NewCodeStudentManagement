@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/js
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/less
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/LICENSE.txt
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/metadata
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/scss
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/sprites
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/svgs
+/StudentManagement/wwwroot/lib/Font Awesome/fontawesome-free-6.5.1-web/webfonts
