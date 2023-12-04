@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentManagement.Models
 {
@@ -9,6 +10,12 @@ namespace StudentManagement.Models
         public int StudentId { get; set; }
         [Display(Name ="Class")]
         public int ClassId { get; set; }
+
+        [ForeignKey(nameof(StudentId))]
+        public Student Student { get; set; }
+
+        [ForeignKey(nameof(ClassId))]
+        public Classes Class { get; set; }
 
     }
 

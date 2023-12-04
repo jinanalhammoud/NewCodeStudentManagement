@@ -12,18 +12,20 @@ namespace StudentManagement.Controllers
     public class ClassRegistrationsController : Controller
     {
         private readonly ApplicationDBContext _context;
+        private readonly ClassesManager _classesManager;
 
-        public ClassRegistrationsController(ApplicationDBContext context)
+        public ClassRegistrationsController(ApplicationDBContext context, ClassesManager classesManager)
         {
             _context = context;
+            _classesManager = classesManager;
         }
 
         // GET: ClassRegistrations
         public async Task<IActionResult> Index()
         {
-            if (_context.classRegistrations != null)
+            if (_context.ClassRegistrations != null)
             {
-                var classes = await _context.classRegistrations
+                var classes = await _context.ClassRegistrations.Include(x => x.Student).Include(x => x.Class).ThenInclude(x => x.Course)
                     .ToListAsync();
 
                 var classRegistrationDetails = new List<ClassRegistrationDetails>();
@@ -48,7 +50,7 @@ namespace StudentManagement.Controllers
         public IActionResult Create()
         {
             var students = _context.Students.ToList();
-            var classes = _context.classes.ToList();
+            var classes = _classesManager.GetClassInfos();
 
             ViewBag.StudentsList = new SelectList(students, "Id", "Name");
             ViewBag.ClassesList = new SelectList(classes, "Id", "Title");
@@ -62,6 +64,8 @@ namespace StudentManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,StudentId,ClassId")] ClassRegistration classRegistration)
         {
+            ModelState.Remove(nameof(classRegistration.Class));
+            ModelState.Remove(nameof(classRegistration.Student));
             if (ModelState.IsValid)
             {
                 _context.Add(classRegistration);
@@ -74,19 +78,19 @@ namespace StudentManagement.Controllers
         // GET: ClassRegistrations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.classRegistrations == null)
+            if (id == null || _context.ClassRegistrations == null)
             {
                 return NotFound();
             }
 
-            var classRegistration = await _context.classRegistrations.FindAsync(id);
+            var classRegistration = await _context.ClassRegistrations.FindAsync(id);
             if (classRegistration == null)
             {
                 return NotFound();
             }
 
             var students = _context.Students.ToList();
-            var classes = _context.classes.ToList();
+            var classes = _classesManager.GetClassInfos();
 
             ViewBag.StudentsList = new SelectList(students, "Id", "Name");
             ViewBag.ClassesList = new SelectList(classes, "Id", "Title");
@@ -105,6 +109,9 @@ namespace StudentManagement.Controllers
             {
                 return NotFound();
             }
+
+            ModelState.Remove(nameof(classRegistration.Student));
+            ModelState.Remove(nameof(classRegistration.Class));
 
             if (ModelState.IsValid)
             {
@@ -132,12 +139,12 @@ namespace StudentManagement.Controllers
         // GET: ClassRegistrations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.classRegistrations == null)
+            if (id == null || _context.ClassRegistrations == null)
             {
                 return NotFound();
             }
 
-            var classRegistration = await _context.classRegistrations
+            var classRegistration = await _context.ClassRegistrations.Include(x => x.Student).Include(x => x.Class).ThenInclude(x => x.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (classRegistration == null)
             {
@@ -152,14 +159,14 @@ namespace StudentManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.classRegistrations == null)
+            if (_context.ClassRegistrations == null)
             {
                 return Problem("Entity set 'ApplicationDBContext.classRegistrations'  is null.");
             }
-            var classRegistration = await _context.classRegistrations.FindAsync(id);
+            var classRegistration = await _context.ClassRegistrations.FindAsync(id);
             if (classRegistration != null)
             {
-                _context.classRegistrations.Remove(classRegistration);
+                _context.ClassRegistrations.Remove(classRegistration);
             }
 
             await _context.SaveChangesAsync();
@@ -168,7 +175,7 @@ namespace StudentManagement.Controllers
 
         private bool ClassRegistrationExists(int id)
         {
-            return (_context.classRegistrations?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.ClassRegistrations?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
         private ClassRegistrationDetails ClassRegistrationDetailsMapper(ClassRegistration classRegistration)
@@ -176,11 +183,8 @@ namespace StudentManagement.Controllers
             var classRegistrationDetails = new ClassRegistrationDetails();
             classRegistrationDetails.Id = classRegistration.Id;
 
-            var classItem = _context.classes.Find(classRegistration.ClassId);
-            var student = _context.Students.Find(classRegistration.StudentId);
-
-            classRegistrationDetails.Student = student.Name;
-            classRegistrationDetails.Class = classItem.Title;
+            classRegistrationDetails.Student = classRegistration.Student.Name;
+            classRegistrationDetails.Class = $"{classRegistration.Class.Course.Code} - {classRegistration.Class.GroupName}";
 
             return classRegistrationDetails;
         }

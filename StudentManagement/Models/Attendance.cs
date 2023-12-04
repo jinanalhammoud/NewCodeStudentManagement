@@ -1,14 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentManagement.Models
 {
     public class Attendance
     {
         public int Id { get; set; }
-        public int LectureId { get; set;}
-        public int StudentId { get; set;}
+        public int LectureId { get; set; }
+        public int StudentId { get; set; }
+
+        [ForeignKey(nameof(LectureId))]
+        public ClassLecture Lecture { get; set; }
+
+        [ForeignKey(nameof(StudentId))]
+        public Student Student { get; set; }
     }
 
     public class AttendanceDetails

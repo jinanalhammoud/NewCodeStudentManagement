@@ -12,18 +12,20 @@ namespace StudentManagement.Controllers
     public class ClassLecturesController : Controller
     {
         private readonly ApplicationDBContext _context;
+        private readonly ClassesManager _classesManager;
 
-        public ClassLecturesController(ApplicationDBContext context)
+        public ClassLecturesController(ApplicationDBContext context, ClassesManager classesManager)
         {
             _context = context;
+            _classesManager = classesManager;
         }
 
         // GET: ClassLectures
         public async Task<IActionResult> Index()
         {
-            if (_context.classLectures != null)
+            if (_context.ClassLectures != null)
             {
-                var classLectures = await _context.classLectures.ToListAsync();
+                var classLectures = await _context.ClassLectures.Include(x => x.Class).ThenInclude(x => x.Course).ToListAsync();
                 var classLecturesDetails = new List<ClassLectureDetails>();
                 if (classLectures != null && classLectures.Count > 0)
                 {
@@ -39,7 +41,7 @@ namespace StudentManagement.Controllers
         // GET: ClassLectures/Create
         public IActionResult Create()
         {
-            var classes = _context.classes.ToList();
+            var classes = _classesManager.GetClassInfos();
             ViewBag.ClassesList = new SelectList(classes, "Id", "Title");
             return View();
         }
@@ -51,6 +53,8 @@ namespace StudentManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,ClassId,Day,StartTime,EndTime")] ClassLecture classLecture)
         {
+            ModelState.Remove(nameof(classLecture.Class));
+
             if (ModelState.IsValid)
             {
                 _context.Add(classLecture);
@@ -63,17 +67,17 @@ namespace StudentManagement.Controllers
         // GET: ClassLectures/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.classLectures == null)
+            if (id == null || _context.ClassLectures == null)
             {
                 return NotFound();
             }
 
-            var classLecture = await _context.classLectures.FindAsync(id);
+            var classLecture = await _context.ClassLectures.FindAsync(id);
             if (classLecture == null)
             {
                 return NotFound();
             }
-            var classes = _context.classes.ToList();
+            var classes = _classesManager.GetClassInfos();
             ViewBag.ClassesList = new SelectList(classes, "Id", "Title");
             return View(classLecture);
         }
@@ -89,6 +93,8 @@ namespace StudentManagement.Controllers
             {
                 return NotFound();
             }
+
+            ModelState.Remove(nameof(classLecture.Class));
 
             if (ModelState.IsValid)
             {
@@ -116,13 +122,13 @@ namespace StudentManagement.Controllers
         // GET: ClassLectures/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.classLectures == null)
+            if (id == null || _context.ClassLectures == null)
             {
                 return NotFound();
             }
 
-            var classLecture = await _context.classLectures
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var classLecture = ClassLectureDetailsMapper(await _context.ClassLectures.Include(x => x.Class).ThenInclude(x => x.Course)
+                .FirstOrDefaultAsync(m => m.Id == id));
             if (classLecture == null)
             {
                 return NotFound();
@@ -136,14 +142,14 @@ namespace StudentManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.classLectures == null)
+            if (_context.ClassLectures == null)
             {
                 return Problem("Entity set 'ApplicationDBContext.classLectures'  is null.");
             }
-            var classLecture = await _context.classLectures.FindAsync(id);
+            var classLecture = await _context.ClassLectures.FindAsync(id);
             if (classLecture != null)
             {
-                _context.classLectures.Remove(classLecture);
+                _context.ClassLectures.Remove(classLecture);
             }
 
             await _context.SaveChangesAsync();
@@ -152,7 +158,7 @@ namespace StudentManagement.Controllers
 
         private bool ClassLectureExists(int id)
         {
-            return (_context.classLectures?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.ClassLectures?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
         private ClassLectureDetails ClassLectureDetailsMapper(ClassLecture classLecture)
@@ -164,21 +170,10 @@ namespace StudentManagement.Controllers
                 Day = classLecture.Day.ToLongDateString(),
                 StartTime = classLecture.StartTime.ToShortTimeString(),
                 EndTime = classLecture.EndTime.ToShortTimeString(),
+                Class = $"{classLecture.Class.Course.Code} - {classLecture.Class.GroupName}",
             };
 
-            var classItem = _context.classes.Find(classLecture.ClassId);
-            classLectureDetails.Class = classItem.Title;
-
             return classLectureDetails;
-        }
-        public IActionResult YourActionName()
-        {
-            // Create or retrieve a ClassLectureDetails object
-            ClassLectureDetails model = new ClassLectureDetails(); // You need to initialize this object with appropriate data.
-
-            return View(model);
-
-
         }
     }
 }

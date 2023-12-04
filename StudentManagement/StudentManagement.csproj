@@ -7,8 +7,43 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\js\**" />
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\less\**" />
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\metadata\**" />
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\scss\**" />
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\sprites\**" />
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\svgs\**" />
+    <Compile Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\webfonts\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\js\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\less\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\metadata\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\scss\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\sprites\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\svgs\**" />
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\webfonts\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\js\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\less\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\metadata\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\scss\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\sprites\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\svgs\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\webfonts\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\js\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\less\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\metadata\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\scss\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\sprites\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\svgs\**" />
+    <None Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\webfonts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Models\Class.cs" />
     <Compile Remove="Models\Class1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\Font Awesome\fontawesome-free-6.5.1-web\LICENSE.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +71,6 @@
     <None Include="Views\Courses\Index.cshtml" />
     <None Include="Views\Departments\Create.cshtml" />
     <None Include="Views\Departments\Delete.cshtml" />
-    <None Include="Views\Departments\Details.cshtml" />
     <None Include="Views\Departments\Edit.cshtml" />
     <None Include="Views\Departments\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />

@@ -1,4 +1,4 @@
-﻿@model StudentManagement.Models.ClassRegistrationDetails 
+﻿@model StudentManagement.Models.ClassRegistrationDetails
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,23 +11,23 @@
     <h4>ClassRegistration</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Student)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Student)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Class)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Class)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <button type="submit" value="save" class="btn btn-danger">Delete <i class="fa-solid fa-trash"></i></button>
+        <a asp-action="Index" class="btn btn-secondary">Back <i class="fa-solid fa-angles-left"></i></a>
     </form>
 </div>

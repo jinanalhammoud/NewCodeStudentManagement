@@ -33,15 +33,14 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                @*<input type="submit" value="Save" class="btn btn-primary" />*@
+                <button type="submit" value="save" class="btn btn-primary">Save <i class="fa-regular fa-floppy-disk"></i></button>
+                <a asp-action="Index" class="btn btn-secondary">Back <i class="fa-solid fa-angles-left"></i></a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

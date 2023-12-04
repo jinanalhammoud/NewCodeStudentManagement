@@ -5,14 +5,15 @@
 @using (Html.BeginForm("SaveAttendance", "Attendances", FormMethod.Post))
 {
     <input type="hidden" asp-for="@Model.SelectedClassId" />
-    <div class="form-group">
+    <div class="form-group col-md-2" >
         <label asp-for="@Model.SelectedLectureId" class="control-label"></label>
         <select asp-for="@Model.SelectedLectureId" asp-items="@Model.Lectures" class="form-control">
             <option value="">-- Select Lecture --</option>
         </select>
         <span asp-validation-for="@Model.SelectedLectureId" class="text-danger"></span>
     </div>
-    <table class="table">
+    <br />
+    <table class="table" id="myTable">
         <thead>
             <tr>
                 <th>Student Name</th>
@@ -34,5 +35,5 @@
         </tbody>
     </table>
 
-    <button type="submit" class="btn btn-primary">Save Attendance</button>
+    <button type="submit" class="btn btn-primary">Save <i class="fa-regular fa-floppy-disk"></i></button>
 }

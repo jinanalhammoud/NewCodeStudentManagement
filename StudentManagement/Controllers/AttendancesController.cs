@@ -8,10 +8,12 @@ namespace StudentManagement.Controllers
     public class AttendancesController : Controller
     {
         private readonly ApplicationDBContext _context;
+        private readonly ClassesManager _classesManager;
 
-        public AttendancesController(ApplicationDBContext context)
+        public AttendancesController(ApplicationDBContext context, ClassesManager classesManager)
         {
             _context = context;
+            _classesManager = classesManager;
         }
 
         // GET: Attendances
@@ -19,7 +21,7 @@ namespace StudentManagement.Controllers
         {
             if (_context.Attendances != null)
             {
-                var attendances = await _context.Attendances.ToListAsync();
+                var attendances = await _context.Attendances.Include(x => x.Lecture).ThenInclude(x => x.Class).ThenInclude(x => x.Course).Include(x => x.Student).ToListAsync();
                 var attendancesDetails = new List<AttendanceDetails>();
                 if (attendances != null && attendances.Count > 0)
                 {
@@ -33,16 +35,12 @@ namespace StudentManagement.Controllers
 
         private AttendanceDetails AttendanceDetailsMapper(Attendance attendance)
         {
-            var lecture = _context.classLectures.Find(attendance.LectureId);
-            var classItem = _context.classes.Find(lecture.ClassId);
-            var student = _context.Students.Find(attendance.StudentId);
-
             return new AttendanceDetails
             {
                 Id = attendance.Id,
-                Lecture = lecture.Title,
-                Class = classItem.Title,
-                Student = student.Name
+                Lecture = attendance.Lecture.Title,
+                Class = $"{attendance.Lecture.Class.Course.Code} - {attendance.Lecture.Class.GroupName}",
+                Student = attendance.Student.Name
             };
         }
 
@@ -86,7 +84,7 @@ namespace StudentManagement.Controllers
         public IActionResult TakeAttendance()
         {
             // Retrieve a list of classes from your database or another source.
-            var classes = _context.classes.ToList();
+            var classes = _classesManager.GetClassInfos();
 
             var viewModel = new SelectClassViewModel
             {
@@ -105,10 +103,10 @@ namespace StudentManagement.Controllers
             }
             // Based on the selectedClassId, retrieve the list of students registered for that class.
 
-            var classLectures = _context.classLectures.Where(lec => lec.ClassId == selectedClassId)?.ToList();
+            var classLectures = _context.ClassLectures.Where(lec => lec.ClassId == selectedClassId)?.ToList();
             var lecturesList = new SelectList(classLectures, "Id", "Title");
 
-            var registredStudentsIds = _context.classRegistrations
+            var registredStudentsIds = _context.ClassRegistrations
                 .Where(reg => reg.ClassId == selectedClassId)?
                 .Select(reg => reg.StudentId)
                 .ToList();
@@ -159,7 +157,7 @@ namespace StudentManagement.Controllers
                         };
                         _context.Attendances.Add(attendance);
                     }
-                    if(!student.Attended && existingStudentAttendance != null)
+                    if (!student.Attended && existingStudentAttendance != null)
                     {
                         existingAttendances.Remove(existingStudentAttendance);
                     }

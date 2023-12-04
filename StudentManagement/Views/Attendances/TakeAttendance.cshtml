@@ -4,10 +4,10 @@
 
 @using (Html.BeginForm("MarkAttendance", "Attendances", FormMethod.Post))
 {
-    <div class="form-group">
+    <div class="form-group col-md-3">
         <label for="SelectedClassId">Select Class:</label>
         @Html.DropDownListFor(model => model.SelectedClassId, Model.Classes, "-- Select Class --", new { @class = "form-control" })
     </div>
-
-    <button type="submit" class="btn btn-primary">Next</button>
+    <br />
+    <button type="submit" class="btn btn-primary">Next <i class="fa-solid fa-angles-right"></i></button>
 }

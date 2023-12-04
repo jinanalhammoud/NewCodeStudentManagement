@@ -19,9 +19,9 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="GroupName" class="control-label"></label>
+                <input asp-for="GroupName" class="form-control" />
+                <span asp-validation-for="GroupName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TeacherId" class="control-label"></label>
@@ -38,15 +38,13 @@
                 <input asp-for="Semester" class="form-control" />
                 <span asp-validation-for="Semester" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <button type="submit" value="save" class="btn btn-primary">Save <i class="fa-regular fa-floppy-disk"></i></button>
+                <a asp-action="Index" class="btn btn-secondary">Back <i class="fa-solid fa-angles-left"></i></a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -7,9 +7,9 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="TakeAttendance">Take Attendance</a>
+    <a asp-action="TakeAttendance" class="btn btn-primary">Take Attendance</a>
 </p>
-<table class="table">
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th>
@@ -25,21 +25,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Class)
                 </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lecture)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

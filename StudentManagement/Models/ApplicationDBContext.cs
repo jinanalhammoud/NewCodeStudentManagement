@@ -13,9 +13,9 @@ namespace StudentManagement.Models
         public DbSet<Department> Departments { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Classes> classes { get; set; }
-        public DbSet<ClassRegistration> classRegistrations { get; set; }
-        public DbSet<ClassLecture> classLectures { get; set; }
+        public DbSet<Classes> Classes { get; set; }
+        public DbSet<ClassRegistration> ClassRegistrations { get; set; }
+        public DbSet<ClassLecture> ClassLectures { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
     }
 }

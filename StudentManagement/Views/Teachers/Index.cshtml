@@ -7,9 +7,9 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Add</a>
 </p>
-<table class="table">
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th>Name</th>
@@ -28,9 +28,9 @@
                 <td>@teacher.PhoneNumber</td>
                 <td>@teacher.Email</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@teacher.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@teacher.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@teacher.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@teacher.Id" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <a asp-action="Details" asp-route-id="@teacher.Id" class="btn btn-secondary"><i class="fa-solid fa-circle-info"></i></a>
+                    <a asp-action="Delete" asp-route-id="@teacher.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
         }
